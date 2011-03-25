@@ -1,13 +1,11 @@
 jekyll-gist-tag renders the markup to embed a gist in your page in a manner that will work with or without
 JavaScript enabled or available.  The resulting markup for the example below looks something like this:
 
-{% highlight html %}
-<div class="highlight"><div class="code"><script src="https://gist.github.com/885179.js?file=example.htaccess.txt"></script><noscript><pre><code class="apache">
-<span class="nb">redirect</span> <span class="m">301</span> /?cat=1 http://www.somesite.com/
-<span class="nb">redirect</span> <span class="m">301</span> /?cat=5 http://www.somesite.com/category/standards
-</code></pre><p><a href="https://gist.github.com/885179">This Gist</a> hosted on <a href="http://github.com/">GitHub</a>.</p></noscript></div>
-</div>
-{% highlight %}
+	<div class="highlight"><div class="code"><script src="https://gist.github.com/885179.js?file=example.htaccess.txt"></script><noscript><pre><code class="apache">
+	<span class="nb">redirect</span> <span class="m">301</span> /?cat=1 http://www.somesite.com/
+	<span class="nb">redirect</span> <span class="m">301</span> /?cat=5 http://www.somesite.com/category/standards
+	</code></pre><p><a href="https://gist.github.com/885179">This Gist</a> hosted on <a href="http://github.com/">GitHub</a>.</p></noscript></div>
+	</div>
 
 # Installation
 
