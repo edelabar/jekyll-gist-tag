@@ -10,18 +10,17 @@ module Jekyll
       @url = tokens[0]
       lang = tokens[1]
       
-      /https:\/\/gist.github.com\/raw\/(.*)\/(.*)\/(.*\.([a-zA-Z]+))/ =~ @url
+      /https:\/\/gist.github.com\/raw\/(.*)\/.*\/(.*\.([a-zA-Z]+))/ =~ @url
       @gist = $1
-      @raw = $2
-      @file = $3
-      @lang = $4
+      @file = $2
+      @lang = $3
       
       if lang != nil && !lang.empty?
         @lang = lang
       end
       
       host = 'gist.github.com'
-      path = "/raw/#{@gist}/#{@raw}/#{@file}"
+      path = "/raw/#{@gist}/#{@file}"
 
       http = Net::HTTP.new(host, 443)
       http.use_ssl = true
@@ -35,8 +34,6 @@ module Jekyll
     def render(context)
       if context.registers[:site].pygments
         render_pygments(context, @code, @lang)
-      else
-        render_codehighlighter(context, @code)
       end
     end
 
@@ -45,23 +42,6 @@ module Jekyll
       output = context["pygments_prefix"] + output if context["pygments_prefix"]
       output = output + context["pygments_suffix"] if context["pygments_suffix"]
       output
-    end
-
-    def render_codehighlighter(context, code)
-      #The div is required because RDiscount blows ass
-      <<-HTML
-      <div class=\"code\">
-        <script src=\"https://gist.github.com/#{@gist}.js?file=#{@file}\"></script>
-        <noscript>
-          <pre>
-            <code class=\"#{@lang}\">
-              #{h(@code).strip}
-            </code>
-          </pre>
-          <p><a href=\"https://gist.github.com/#{@gist}\">This Gist</a> hosted on <a href=\"http://github.com/\">GitHub</a>.</p>
-        </noscript>
-      </div>
-      HTML
     end
 
     def add_code_tags(code, lang)
