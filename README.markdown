@@ -37,3 +37,7 @@ The list of included lexers is available in the [Pygments documentation](http://
 ## Example
 
 {% render_gist https://gist.github.com/raw/885179/f030d8edd3e0cf45a9bfa6cea8979d7c006d7c4c/example.htaccess.txt apache %}
+
+# License
+
+See LICENSE
