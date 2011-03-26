@@ -25,6 +25,7 @@ Add jekyll-gist-tag.rb to the _plugins directory of your jekyll site
 Where:
 
 gist_raw_url_with_filename is the gist's raw URL (e.g. https://gist.github.com/raw/885179/f030d8edd3e0cf45a9bfa6cea8979d7c006d7c4c/example.htaccess.txt)
+
 [pygments_lexer] is the optionally provided name of the pygments lexer for highlighting the code. If omitted, the file extension from the gist will be passed to pygments as the lexer.
 
 The list of included lexers is available in the [Pygments documentation](http://pygments.org/docs/lexers).
