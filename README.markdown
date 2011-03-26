@@ -13,10 +13,14 @@ JavaScript enabled or available.  The resulting markup for the example below loo
 			</noscript>
 		</div>
 	</div>
+	
+# Requirements
+
+This is a Jekyll plugin so it requires [Jekyll](https://github.com/mojombo/jekyll), as of now it also requires [Pygments](http://pygments.org/) as documented in the [Jekyll install](https://github.com/mojombo/jekyll/wiki/install).  I'm new to Ruby, so please excuse my code, it was unceremoniously hacked from the [Jekyll source](https://github.com/mojombo/jekyll/blob/master/lib/jekyll/tags/highlight.rb) but seems to be working for me.
 
 # Installation
 
-Add jekyll-gist-tag.rb to the _plugins directory of your jekyll site
+Add jekyll-gist-tag.rb to the _plugins directory of your Jekyll site
 
 # Usage
 
