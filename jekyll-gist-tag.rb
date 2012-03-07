@@ -10,17 +10,18 @@ module Jekyll
       @url = tokens[0]
       lang = tokens[1]
       
-      /https:\/\/gist.github.com\/raw\/(.*)\/.*\/(.*\.([a-zA-Z]+))/ =~ @url
+      /https:\/\/raw.github.com\/gist\/(.*)\/(.*)\/(.*\.([a-zA-Z]+))/ =~ @url
       @gist = $1
-      @file = $2
-      @lang = $3
+      @uuid = $2
+      @file = $3
+      @lang = $4
       
       if lang != nil && !lang.empty?
         @lang = lang
       end
       
       host = 'raw.github.com'
-      path = "/gist/#{@gist}/#{@file}"
+      path = "/gist/#{@gist}/#{@uuid}/#{@file}"
 
       http = Net::HTTP.new(host, 443)
       http.use_ssl = true
