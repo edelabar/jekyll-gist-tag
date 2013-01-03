@@ -51,7 +51,7 @@ module Jekyll
 
     def add_code_tags(code, language)
       # Add nested <code> tags to code blocks
-      code = code.sub(/<pre>/,"<div class=\"gist\"><script src=\"https://gist.github.com/#{@gist}.js?file=#{@file}\"> </script><noscript><pre><code class=\"#{language}\">\n")
+      code = code.sub(/<pre>/,"<div class=\"gist\"><script src=\"https://gist.github.com/#{@gist}.js?file=#{@file}\"> </script><noscript><pre><code class=\"#{language}\">")
       code = code.sub(/<\/pre>/,"</code></pre><p><a href=\"https://gist.github.com/#{@gist}\">This Gist</a> hosted on <a href=\"http://github.com/\">GitHub</a>.</p></noscript></div>")
     end
     
