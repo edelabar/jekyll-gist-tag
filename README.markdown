@@ -14,17 +14,17 @@ JavaScript enabled or available.  The resulting markup for the example below loo
 		</div>
 	</div>
 	
-# Requirements
+## Requirements
 
 This is a Jekyll plugin so it requires [Jekyll](https://github.com/mojombo/jekyll), as of now it also requires [Pygments](http://pygments.org/) as documented in the [Jekyll install](https://github.com/mojombo/jekyll/wiki/install).  I'm new to Ruby, so please excuse my code, it was unceremoniously hacked from the [Jekyll source](https://github.com/mojombo/jekyll/blob/master/lib/jekyll/tags/highlight.rb) but seems to be working for me.
 
-# Installation
+## Installation
 
 Add jekyll-gist-tag.rb to the _plugins directory of your Jekyll site
 
-# Usage
+## Usage
 
-{% render_gist *gist_raw_url_with_filename* *[pygments_lexer]* }
+    {% render_gist *gist_raw_url_with_filename* *[pygments_lexer]* }
 
 Where:
 
@@ -36,8 +36,14 @@ The list of included lexers is available in the [Pygments documentation](http://
 
 ## Example
 
-{% render_gist https://gist.github.com/raw/885179/f030d8edd3e0cf45a9bfa6cea8979d7c006d7c4c/example.htaccess.txt apache %}
+    {% render_gist https://gist.github.com/raw/885179/f030d8edd3e0cf45a9bfa6cea8979d7c006d7c4c/example.htaccess.txt apache %}
 
-# License
+## Troubleshooting
+
+    Liquid Exception: SSL_connect returned=1 errno=0 state=SSLv3 read server certificate B: certificate verify failed in ...
+
+If you run into a certificate error like the one above, you need to [install a Certificate Authority bundle](http://stackoverflow.com/questions/4528101/ssl-connect-returned-1-errno-0-state-sslv3-read-server-certificate-b-certificat) for ruby.
+
+## License
 
 See LICENSE
