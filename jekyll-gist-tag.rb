@@ -1,56 +1,57 @@
-require 'net/https'  
- 
+require 'open-uri'
+require 'pygments'
+
 module Jekyll
   class RenderGist< Liquid::Tag
 
-    def initialize(tag_name, url, tokens)
+    def initialize(tag_name, params, tokens)
       super
       
-      tokens = url.split(' ')
-      @url = tokens[0]
-      lang = tokens[1]
-      
-      /https:\/\/raw.github.com\/gist\/(.*)\/(.*)\/(.*\.([a-zA-Z]+))/ =~ @url
-      @gist = $1
-      @uuid = $2
-      @file = $3
-      @lang = $4
-      
-      if lang != nil && !lang.empty?
-        @lang = lang
+      url, specified_language = params.split(' ')
+
+      if %r|https://gist.github.com/raw/(.*)/.*/(.*\.([a-zA-Z]+))| =~ url
+        @gist = $1
+        @file = $2
+        file_language = $3
+      else
+        $stderr.puts "Failed to parse gist URL '#{url}' from tag."
+        $stderr.puts "URL should be in the form 'https://gist.github.com/raw/1234/123456789abcdef/example.txt'"
+        exit(1);
       end
       
-      host = 'raw.github.com'
-      path = "/gist/#{@gist}/#{@uuid}/#{@file}"
+      @language = specified_language || file_language
+      @code = get_gist_contents(url)      
+    end
 
-      http = Net::HTTP.new(host, 443)
-      http.use_ssl = true
-      headers, body = http.get(path)
-      if headers.code == "200" 
-        @code = body 
-        # $stderr.puts body
-      else
-        $stderr.puts "Failed to retreive gist, check the gist URL"
-      end  
-      
+    def get_gist_contents(gist_url)
+      begin
+        open(gist_url).read
+      rescue => error
+        $stderr.puts "Unable to open gist URL: #{error}"
+        exit(1);
+      end
     end
     
     def render(context)
       if context.registers[:site].pygments
-        render_pygments(context, @code, @lang)
+        render_pygments(context, @code, @language)
       end
     end
 
-    def render_pygments(context, code, lang)
-      output = add_code_tags(Albino.new(code, lang).to_s, lang)
+    def render_pygments(context, code, language)
+      if Pygments::Lexer.find(@language)
+        lexer = Pygments::Lexer.find(@language).name.downcase
+      end
+
+      options = {'encoding' => 'utf-8'}
+      output = add_code_tags(Pygments.highlight(@code, :lexer => lexer, :options => options), @language)
       output = context["pygments_prefix"] + output if context["pygments_prefix"]
       output = output + context["pygments_suffix"] if context["pygments_suffix"]
-      output
     end
 
-    def add_code_tags(code, lang)
+    def add_code_tags(code, language)
       # Add nested <code> tags to code blocks
-      code = code.sub(/<pre>/,"<div class=\"code\"><script src=\"https://gist.github.com/#{@gist}.js?file=#{@file}\"></script><noscript><pre><code class=\"#{lang}\">\n")
+      code = code.sub(/<pre>/,"<div class=\"gist\"><script src=\"https://gist.github.com/#{@gist}.js?file=#{@file}\"> </script><noscript><pre><code class=\"#{language}\">\n")
       code = code.sub(/<\/pre>/,"</code></pre><p><a href=\"https://gist.github.com/#{@gist}\">This Gist</a> hosted on <a href=\"http://github.com/\">GitHub</a>.</p></noscript></div>")
     end
     
