@@ -9,13 +9,14 @@ module Jekyll
       
       url, specified_language = params.split(' ')
 
-      if %r|https://gist.github.com/raw/(.*)/.*/(.*\.([a-zA-Z]+))| =~ url
-        @gist = $1
-        @file = $2
-        file_language = $3
+      if %r|https://gist.github.com/(.*)/(.*)/raw/.*/(.*\.([a-zA-Z]+))| =~ url
+        @username = $1
+        @gist = $2
+        @file = $3
+        file_language = $4
       else
         $stderr.puts "Failed to parse gist URL '#{url}' from tag."
-        $stderr.puts "URL should be in the form 'https://gist.github.com/raw/1234/123456789abcdef/example.txt'"
+        $stderr.puts "URL should be in the form 'https://gist.github.com/<username>/12345/raw/4116128eb09ebc293bf9c11941dd1091671036b9/example.txt'"
         exit(1);
       end
       
@@ -51,8 +52,8 @@ module Jekyll
 
     def add_code_tags(code, language)
       # Add nested <code> tags to code blocks
-      code = code.sub(/<pre>/,"<div class=\"gist\"><script src=\"https://gist.github.com/#{@gist}.js?file=#{@file}\"> </script><noscript><pre><code class=\"#{language}\">")
-      code = code.sub(/<\/pre>/,"</code></pre><p><a href=\"https://gist.github.com/#{@gist}\">This Gist</a> hosted on <a href=\"http://github.com/\">GitHub</a>.</p></noscript></div>")
+      code = code.sub(/<pre>/,"<div class=\"gist\"><script src=\"https://gist.github.com/#{@username}/#{@gist}.js?file=#{@file}\"> </script><noscript><pre><code class=\"#{language}\">")
+      code = code.sub(/<\/pre>/,"</code></pre><p><a href=\"https://gist.github.com/#{@username}/#{@gist}\">This Gist</a> hosted on <a href=\"http://github.com/\">GitHub</a>.</p></noscript></div>")
     end
     
   end

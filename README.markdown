@@ -3,13 +3,13 @@ JavaScript enabled or available.  The resulting markup for the example below loo
 
 	<div class="highlight">
 		<div class="code">
-			<script src="https://gist.github.com/885179.js?file=example.htaccess.txt"></script>
+			<script src="https://gist.github.com/edelabar/885179.js?file=example.htaccess.txt"></script>
 			<noscript>
 				<pre><code class="apache">
 					<span class="nb">redirect</span> <span class="m">301</span> /?cat=1 http://www.somesite.com/
 					<span class="nb">redirect</span> <span class="m">301</span> /?cat=5 http://www.somesite.com/category/standards
 				</code></pre>
-				<p><a href="https://gist.github.com/885179">This Gist</a> hosted on <a href="http://github.com/">GitHub</a>.</p>
+				<p><a href="https://gist.github.com/edelabar/885179">This Gist</a> hosted on <a href="http://github.com/">GitHub</a>.</p>
 			</noscript>
 		</div>
 	</div>
@@ -28,7 +28,7 @@ Add jekyll-gist-tag.rb to the _plugins directory of your Jekyll site
 
 Where:
 
-gist_raw_url_with_filename is the gist's raw URL (e.g. https://gist.github.com/raw/885179/f030d8edd3e0cf45a9bfa6cea8979d7c006d7c4c/example.htaccess.txt)
+gist_raw_url_with_filename is the gist's raw URL (e.g. https://gist.github.com/edelabar/885179/raw/f030d8edd3e0cf45a9bfa6cea8979d7c006d7c4c/example.htaccess.txt)
 
 [pygments_lexer] is the optionally provided name of the pygments lexer for highlighting the code. If omitted, the file extension from the gist will be passed to pygments as the lexer.
 
@@ -36,7 +36,7 @@ The list of included lexers is available in the [Pygments documentation](http://
 
 ## Example
 
-    {% render_gist https://gist.github.com/raw/885179/f030d8edd3e0cf45a9bfa6cea8979d7c006d7c4c/example.htaccess.txt apache %}
+    {% render_gist https://gist.github.com/edelabar/885179/raw/f030d8edd3e0cf45a9bfa6cea8979d7c006d7c4c/example.htaccess.txt apache %}
 
 ## Troubleshooting
 
