@@ -9,14 +9,19 @@ module Jekyll
       
       url, specified_language = params.split(' ')
 
-      if %r|https://gist.github.com/raw/(.*)/(.*)/(.*\.([a-zA-Z]+))| =~ url
+      if %r|https://gist.githubusercontent.com/.*/(.*)/raw/(.*)/(.*\.([a-zA-Z]+))| =~ url
+        @gist = $1
+        @uuid = $2
+        @file = $3
+        file_language = $4
+      elsif %r|https://gist.github.com/raw/(.*)/(.*)/(.*\.([a-zA-Z]+))| =~ url
         @gist = $1
         @uuid = $2
         @file = $3
         file_language = $4
       else
         $stderr.puts "Failed to parse gist URL '#{url}' from tag."
-        $stderr.puts "URL should be in the form 'https://gist.github.com/raw/1234/123456789abcdef/example.txt'"
+        $stderr.puts "URL should be in the form 'https://gist.githubusercontent.com/edelabar/885585/raw/97636729211894478563debbe776c4a69bb19fce/example.txt'"
         exit(1);
       end
       
