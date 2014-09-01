@@ -1,5 +1,5 @@
 require 'open-uri'
-require 'pygments'
+require 'albino'
 
 module Jekyll
   class RenderGist< Liquid::Tag
@@ -9,10 +9,11 @@ module Jekyll
       
       url, specified_language = params.split(' ')
 
-      if %r|https://gist.github.com/raw/(.*)/.*/(.*\.([a-zA-Z]+))| =~ url
+      if %r|https://gist.github.com/raw/(.*)/(.*)/(.*\.([a-zA-Z]+))| =~ url
         @gist = $1
-        @file = $2
-        file_language = $3
+        @uuid = $2
+        @file = $3
+        file_language = $4
       else
         $stderr.puts "Failed to parse gist URL '#{url}' from tag."
         $stderr.puts "URL should be in the form 'https://gist.github.com/raw/1234/123456789abcdef/example.txt'"
@@ -20,33 +21,44 @@ module Jekyll
       end
       
       @language = specified_language || file_language
-      @code = get_gist_contents(url)      
+            
     end
 
-    def get_gist_contents(gist_url)
+    def get_gist_contents(gist,uuid,file,user)
+      
+      # https://gist.githubusercontent.com/edelabar/885585/raw/97636729211894478563debbe776c4a69bb19fce/in-beginning-there-was-doctype.fifth.html      
+      gist_url = "https://gist.githubusercontent.com/#{user}/#{gist}/raw/#{uuid}/#{file}"
+      
       begin
         open(gist_url).read
       rescue => error
         $stderr.puts "Unable to open gist URL: #{error}"
         exit(1);
       end
+      
+    end
+    
+    def lookup(context, name)
+      lookup = context
+      name.split(".").each { |value| lookup = lookup[value] }
+      lookup
     end
     
     def render(context)
-      if context.registers[:site].pygments
+      
+      user = lookup(context, 'site.github_username')
+      @code = get_gist_contents(@gist,@uuid,@file,user)
+      
+      if context.registers[:site].highlighter == 'pygments'
         render_pygments(context, @code, @language)
       end
     end
 
     def render_pygments(context, code, language)
-      if Pygments::Lexer.find(@language)
-        lexer = Pygments::Lexer.find(@language).name.downcase
-      end
-
-      options = {'encoding' => 'utf-8'}
-      output = add_code_tags(Pygments.highlight(@code, :lexer => lexer, :options => options), @language)
+      output = add_code_tags(Albino.new(code, language).to_s, language)
       output = context["pygments_prefix"] + output if context["pygments_prefix"]
       output = output + context["pygments_suffix"] if context["pygments_suffix"]
+      output
     end
 
     def add_code_tags(code, language)
