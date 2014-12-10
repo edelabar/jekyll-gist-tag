@@ -27,7 +27,9 @@ This tag requires Pygments and Albino to be installed, the following worked on m
 
 ## Installation
 
-Add jekyll-gist-tag.rb to the _plugins directory of your Jekyll site
+1. Add jekyll-gist-tag.rb to the _plugins directory of your Jekyll site.
+2. Create an entry for github_username in your _config.yml with your github username, e.g. ```github_username: edelabar```.
+3. Make sure your highlighter is set to pygments in your _config.yml, e.g. ```highlighter: pygments```.
 
 ## Usage
 
