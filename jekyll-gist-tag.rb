@@ -1,5 +1,5 @@
 require 'open-uri'
-require 'albino'
+require 'pygments'
 
 module Jekyll
   class RenderGist< Liquid::Tag
@@ -60,7 +60,7 @@ module Jekyll
     end
 
     def render_pygments(context, code, language)
-      output = add_code_tags(Albino.new(code, language).to_s, language)
+      output = add_code_tags(Pygments.highlight(code, :lexer => language).to_s, language)
       output = context["pygments_prefix"] + output if context["pygments_prefix"]
       output = output + context["pygments_suffix"] if context["pygments_suffix"]
       output
