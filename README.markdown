@@ -20,10 +20,9 @@ This is a Jekyll plugin so it requires [Jekyll](https://github.com/mojombo/jekyl
 
 ### Install Dependencies
 
-This tag requires Pygments and Albino to be installed, the following worked on my Mac running Yosemite, if you need different instructions please let me know:
+This tag requires Pygments to be installed, the following worked on my Mac running Yosemite, if you need different instructions please let me know:
 
 	sudo easy_install Pygments
-	sudo gem install albino
 
 ## Installation
 
